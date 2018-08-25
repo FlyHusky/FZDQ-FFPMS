@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form_Baojin</class>
+ <widget class="QWidget" name="Form_Baojin">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>422</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Formxcvxvxcvxzcv</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(85, 255, 255);
+border-color: rgb(16, 80, 255);</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>5</y>
+     <width>780</width>
+     <height>361</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>800</width>
+     <height>800</height>
+    </size>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="rowCount">
+    <number>10</number>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <column>
+    <property name="text">
+     <string>编号</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>85</red>
+       <green>0</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>箱号</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>日期</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>时间</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>报警类型</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>报警值</string>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="0" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="0" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="0" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string>2</string>
+    </property>
+   </item>
+   <item row="1" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="1" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="1" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="1" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="1" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string>3</string>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="2" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="2" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="2" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="3" column="0">
+    <property name="text">
+     <string>4</string>
+    </property>
+   </item>
+   <item row="3" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="3" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="3" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="3" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="3" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="4" column="0">
+    <property name="text">
+     <string>5</string>
+    </property>
+   </item>
+   <item row="4" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="4" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="4" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="4" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="4" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="5" column="0">
+    <property name="text">
+     <string>6</string>
+    </property>
+   </item>
+   <item row="5" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="5" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="5" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="5" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="5" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="6" column="0">
+    <property name="text">
+     <string>7</string>
+    </property>
+   </item>
+   <item row="6" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="6" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="6" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="6" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="6" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="7" column="0">
+    <property name="text">
+     <string>8</string>
+    </property>
+   </item>
+   <item row="7" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="7" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="7" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="7" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="7" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="8" column="0">
+    <property name="text">
+     <string>9</string>
+    </property>
+   </item>
+   <item row="8" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="8" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="8" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="8" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="8" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="9" column="0">
+    <property name="text">
+     <string>10</string>
+    </property>
+   </item>
+   <item row="9" column="1">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="9" column="2">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="9" column="3">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="9" column="4">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+   <item row="9" column="5">
+    <property name="text">
+     <string>1ALE</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>370</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="but_print_today">
+      <property name="maximumSize">
+       <size>
+        <width>180</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>打印当前页报警信息</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="but_print_all">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>打印全部报警信息</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>上一页</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>下一页</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>文泉驿微米黑</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>当前报警总数量：0</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="te1">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>140</y>
+     <width>541</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="te2">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>230</y>
+     <width>541</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
