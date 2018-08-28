@@ -3,6 +3,19 @@
 #define FFPM_H
 #include <QtGlobal>
 #include <QString>
+#define STD_A  5   //额定的电流
+#define STD_V  230 //额定的电压
+#define MAX_RATE_V 150 //最大超限值比  电压
+#define MIN_RATE_V 50  //最小低限值比
+#define STD_MAX_RATE_V 120 //标准超限值
+#define STD_MIN_RATE_V  80  //标准低限值
+
+#define MAX_RATE_A 200 //最大超限值比  电流
+#define MIN_RATE_A 0  //最小低限值比
+#define STD_MAX_RATE_A 120 //标准超限值
+#define STD_MIN_RATE_A  0  //标准低限值
+
+
 
 //4位有效数转换浮点数
 QString FormatFloat(float f);
@@ -14,6 +27,12 @@ public:
 
     FFPM(int t_id,int t_addr, unsigned char t_kind, unsigned char t_net);
 
+    //依据占比值，初始化报警值
+    Bj_data_init();
+
+    //数据库操作失败时，默认的报警值
+    Bj_data_init_default();
+
     unsigned int addr; //模块地址16位无符号整数
     unsigned int id;   //差不多和addr相同。
 
@@ -22,18 +41,24 @@ public:
 
     unsigned char kind; //kind 模块类型 1=M3-V2   2=M3-V2A  3=M3-V3  4=M3-VA  5=M2-V6  6=M2-V9
     unsigned char net; //归属之路，或在所在串口。  1=1-RS485   2=2-RS485   3=3-RS485  4=4-RS485
+
   //  int cur_data[9]; //遥测实时值。
     float cur_data[9];
 
     int bj_data[9];  //超限报警值
 
-    int qy_v1;     //电压1的欠压值
-    int qy_v2 ;     //电压2的欠压值
-    int  qy_va3 ;     //电压/电流3的低限值
+    //下面9个值都为额定的值的比
+    //比如欠压比为78  ，时间欠压值=230*0.78    
+    int  qy_v1;     //电压1的欠压比
+    int  qy_v2 ;     //电压2的欠压
+    int  qy_v3 ;     //电压3的低限
+    int  gy_v1 ;   //电压1的过压
+    int  gy_v2 ;   //电压2的过压
+    int  gy_v3 ;   //电压3的高限
+    int  qy_a; //电流低限
+    int  gy_a; //电流高限比
 
-    int gy_v1 ;   //电压1的过压值
-    int  gy_v2 ;   //电压2的过压值
-    int  gy_va3 ;   //电压/电流3的高限值
+    int a_rate; //电流变比 100：5 的互感器 ，变比=20
 
    unsigned char  guoya;      //过压判断启用>=1  不启用=0;
    unsigned char  qianya;     //欠压判断启用>=1   不启用=0;
