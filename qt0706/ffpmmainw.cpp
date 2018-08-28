@@ -813,25 +813,24 @@ void FFPMMainW:: Alarm_Work_Center(unsigned int com_back){
        }
        //第2部分电流超限检测
        if(Fpms[fpm_cur_id]->kind>=4 ){
-           //Chao_Xian_M3V3();  // bool Chao_Xian_2();
+          Chao_Xian_A2();
        }
 
        //第三部分电压超限检测
        if(Fpms[fpm_cur_id]->kind>=3 || Fpms[fpm_cur_id ]->kind==6 ){
-            // bool Chao_Xian_3();
+           Chao_Xian_M3V3();
        }
        //第三部分电流超限检测
        if(Fpms[fpm_cur_id]->kind==2 ){
-           // bool Chao_Xian_3();
+           Chao_Xian_A3();
        }
 }
 
 //函数名：Chao_Xian_M3V1
-//函数功能：判断第1路3相交流电压是否超限，
-//1=M3-V2   2=M3-V2A  3=M3-V3  4=M3-VA  5=M2-V6  6=M2-V9
+//函数功能：判断第1路3相交流电压是否超限，并存储报警时数据，
 //流程概述：
-//1：如果电压已经报警，则不判断。
-//2：判断电压1中3个电压欠压，过压（如果启用过压判断），
+//1：如果电压已经报警，则返回。
+//2：判断电压1中3个电压欠压，过压.
 //3：如果有（欠压，过压），那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
 void FFPMMainW::Chao_Xian_M3V1() {
      QString bj_str;
@@ -839,37 +838,28 @@ void FFPMMainW::Chao_Xian_M3V1() {
           if(Fpms[fpm_cur_id]->v1_alarm_pop!=0){
               return ;
           }
-        //if(Fpms[fpm_cur_id]->v1_alarm_pop==0){
-        //电压1中，三个电压值，只要只有有一个超限，则报警。
-        //判断1：A1是否欠压
-        if(Fpms[fpm_cur_id]->cur_data[0]<Fpms[fpm_cur_id]->bj_data[0]){
+       
+        if(Fpms[fpm_cur_id]->qianya){   //是否使能欠压报警
+            if(Fpms[fpm_cur_id]->cur_data[0]<Fpms[fpm_cur_id]->v1_min){  //判断1:VA1是否欠压
               Fpms[fpm_cur_id]->v1_alarm_pop=1;
               bj_str=tr("电压1欠压");
+            }else if(Fpms[fpm_cur_id]->cur_data[1]<Fpms[fpm_cur_id]->v1_min){
+                Fpms[fpm_cur_id]->v1_alarm_pop=1;
+                bj_str=tr("电压1欠压");
+            }else if(Fpms[fpm_cur_id]->cur_data[2]<Fpms[fpm_cur_id]->v1_min){
+                Fpms[fpm_cur_id]->v1_alarm_pop=1;
+                bj_str=tr("电压1欠压");
+            }
         }
 
-        //判断1：B1是否欠压
-        if(Fpms[fpm_cur_id]->cur_data[1]<Fpms[fpm_cur_id]->bj_data[0]){
-              Fpms[fpm_cur_id]->v1_alarm_pop=1;
-               bj_str=tr("电压1欠压");
-        }
-
-        //判断1：B1是否欠压
-        if(Fpms[fpm_cur_id]->cur_data[2]<Fpms[fpm_cur_id]->bj_data[0]){
-             Fpms[fpm_cur_id]->v1_alarm_pop=1;
-              bj_str=tr("电压1欠压");
-        }
-
-        //如果启用过压判断，  bj_data(1)过压值。
-        if(Fpms[fpm_cur_id]->guoya){
-            if(Fpms[fpm_cur_id]->cur_data[0]>Fpms[fpm_cur_id]->bj_data[1]){
+        if(Fpms[fpm_cur_id]->guoya){    //是否使能过压报警
+            if(Fpms[fpm_cur_id]->cur_data[0]>Fpms[fpm_cur_id]->v1_max){
                   Fpms[fpm_cur_id]->v1_alarm_pop=1;
                   bj_str=tr("电压1过压");
-            }
-            if(Fpms[fpm_cur_id]->cur_data[1]>Fpms[fpm_cur_id]->bj_data[1]){
+            }else if(Fpms[fpm_cur_id]->cur_data[1]>Fpms[fpm_cur_id]->v1_max){
                   Fpms[fpm_cur_id]->v1_alarm_pop=1;
                   bj_str=tr("电压1过压");
-            }
-            if(Fpms[fpm_cur_id]->cur_data[2]>Fpms[fpm_cur_id]->bj_data[1]){
+            }else if(Fpms[fpm_cur_id]->cur_data[2]>Fpms[fpm_cur_id]->v1_max){
                  Fpms[fpm_cur_id]->v1_alarm_pop=1;
                  bj_str=tr("电压1过压");
             }
@@ -926,10 +916,10 @@ void FFPMMainW::Chao_Xian_M3V1() {
 
 
 //函数名：Chao_Xian_M3V2
-//函数功能：判断第1路3相交流电压是否超限，适用于M3-VA, M3-V2, M3-V2A, M1-V6 (两路3相交流电压)
+//函数功能：判断第2路3相交流电压是否超限，并储存报警时数据
 //流程概述：
 //1：如果电压已经报警，则不判断。
-//2：判断电压2中3个电压欠压，过压（如果启用过压判断），
+//2：判断电压2中3个电压欠压，过压
 //3：如果有（欠压，过压），那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
 void FFPMMainW::Chao_Xian_M3V2() {
     QString bj_str;
@@ -939,34 +929,31 @@ void FFPMMainW::Chao_Xian_M3V2() {
         return;
     }
 
-        if(Fpms[fpm_cur_id]->cur_data[3]<Fpms[fpm_cur_id]->bj_data[2]){
+    if(Fpms[fpm_cur_id]->qianya){   //电压欠压判断
+       if(Fpms[fpm_cur_id]->cur_data[3]<Fpms[fpm_cur_id]->v2_min){
              Fpms[fpm_cur_id]->v2_alarm_pop=1;
               bj_str=tr("电压2欠压");
-       }
-       if(Fpms[fpm_cur_id]->cur_data[4]<Fpms[fpm_cur_id]->bj_data[2]){
+       }else if(Fpms[fpm_cur_id]->cur_data[4]<Fpms[fpm_cur_id]->v2_min){
              Fpms[fpm_cur_id]->v2_alarm_pop=1;
               bj_str=tr("电压2欠压");
-       }
-       if(Fpms[fpm_cur_id]->cur_data[5]<Fpms[fpm_cur_id]->bj_data[2]){
+       }else if(Fpms[fpm_cur_id]->cur_data[5]<Fpms[fpm_cur_id]->v2_min){
             Fpms[fpm_cur_id]->v2_alarm_pop=1;
              bj_str=tr("电压2欠压");
-       }
-
+       } 
+    }
        //如果启用过压判断，
-       if(Fpms[fpm_cur_id]->guoya){
-           if(Fpms[fpm_cur_id]->cur_data[3]>Fpms[fpm_cur_id]->bj_data[3]){
+    if(Fpms[fpm_cur_id]->guoya){
+           if(Fpms[fpm_cur_id]->cur_data[3]>Fpms[fpm_cur_id]->v2_max]){
                  Fpms[fpm_cur_id]->v2_alarm_pop=1;
                   bj_str=tr("电压2过压");
-           }
-           if(Fpms[fpm_cur_id]->cur_data[4]>Fpms[fpm_cur_id]->bj_data[3]){
+           }else if(Fpms[fpm_cur_id]->cur_data[4]>Fpms[fpm_cur_id]->v2_max){
                  Fpms[fpm_cur_id]->v2_alarm_pop=1;
                   bj_str=tr("电压2过压");
-           }
-           if(Fpms[fpm_cur_id]->cur_data[5]>Fpms[fpm_cur_id]->bj_data[3]){
+           }else if(Fpms[fpm_cur_id]->cur_data[5]>Fpms[fpm_cur_id]->v2_max){
                 Fpms[fpm_cur_id]->v2_alarm_pop=1;
                  bj_str=tr("电压2过压");
            }
-       }
+    }
 
        if(Fpms[fpm_cur_id]->v2_alarm_pop==1){
           Alarm  al(2,fpm_cur_id);
@@ -995,12 +982,11 @@ void FFPMMainW::Chao_Xian_M3V2() {
 
 
 //函数名：Chao_Xian_M3VA
-//函数功能：判断第3路3相 电压/电压是否超限，适用于M3-V2A, M3-V3
+//函数功能：判断第3路3相电压是否超限
 //流程概述：
 //1：如果 已经报警，则不判断。
-//2：判断电压2中3个电压欠压/欠流，过压/过流（如果启过压，过流判断），
+//2：判断电压2中3个电压欠压/过压
 //3：如果有超限，那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
-//补充：对于电压点判断需要过压检测标志，对于电流需要欠流和过流检测两个标志。
 void FFPMMainW::Chao_Xian_M3VA() {
        QString bj_str;
 
@@ -1104,7 +1090,207 @@ void FFPMMainW::Chao_Xian_M3VA() {
 
     }
 
-//}
+
+
+
+
+//函数名：Chao_Xian_M3V3
+//函数功能：判断第3路电压是否超限
+//流程概述：
+//1：如果已经报警，则不判断。
+//2：判断电压2中3个电压欠压/过压
+//3：如果有超限，那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
+void FFPMMainW::Chao_Xian_M3V3() {
+    QString bj_str;
+
+       if(Fpms[fpm_cur_id]->va_alarm_pop!=0){  
+           return;
+       }
+
+       if(Fpms[fpm_cur_id]->qianya){ // 欠压报警是否使能
+           if(Fpms[fpm_cur_id]->cur_data[6]<Fpms[fpm_cur_id]->v3_min){
+                 Fpms[fpm_cur_id]->va_alarm_pop=1;
+                 bj_str=tr("电压3欠压");
+           }else if(Fpms[fpm_cur_id]->cur_data[7]<Fpms[fpm_cur_id]->v3_min){
+                 Fpms[fpm_cur_id]->va_alarm_pop=1;
+                 bj_str=tr("电压3欠压");
+           }else  if(Fpms[fpm_cur_id]->cur_data[8]<Fpms[fpm_cur_id]->v3_min){
+                 Fpms[fpm_cur_id]->va_alarm_pop=1;
+                 bj_str=tr("电压3欠压");
+           }
+       }
+        
+        if(Fpms[fpm_cur_id]->guoya){  //如果启用过压判断
+            if(Fpms[fpm_cur_id]->cur_data[6]>Fpms[fpm_cur_id]->v3_max){
+                     Fpms[fpm_cur_id]->va_alarm_pop=1;
+                      bj_str=tr("电压3过压");
+            }else if(Fpms[fpm_cur_id]->cur_data[7]>Fpms[fpm_cur_id]->v3_max){
+                     Fpms[fpm_cur_id]->va_alarm_pop=1;
+                     bj_str=tr("电压3过压");
+            }else if(Fpms[fpm_cur_id]->cur_data[8]>Fpms[fpm_cur_id]->v3_max){
+                    Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电压3过压");
+            }
+        }
+
+        if(Fpms[fpm_cur_id]->va_alarm_pop==1){
+           Alarm  al(3,fpm_cur_id);
+           QString s,s1;
+           QTime qtime1=QTime::currentTime();
+           QDate qdate1=QDate::currentDate();
+            s=qdate1.toString("yyyy-MM-dd");
+            s1=qtime1.toString("hh:mm:ss");
+            al.date_str=s;
+            al.time_str=s1;
+            al.fpm_name=Fpms[fpm_cur_id]->name;
+            s1=QString::number(Fpms[fpm_cur_id]->cur_data[6]);
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[7]));
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[8]));
+            al.value_str=s1;
+            al.alarm_kind=1;
+            al.fpm_id=Fpms[fpm_cur_id]->id;
+            al.alarm_kind_str=bj_str;
+            vector_alarm.push_back(al);
+            Add_Alarm_Infos(&al);
+        }
+}
+
+//函数名：Chao_Xian_A2
+//函数功能：判断第2路(为电流时) 3个电流是否超限，适用于M3VA(即一路3相电压，一路3相电流)  
+//流程概述：
+//1：如果 已经报警，则不判断。
+//2：判断第2路3个电流是否超限。
+//3：如果有超限，那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
+void FFPMMainW::Chao_Xian_A2() {
+       QString bj_str;
+
+       if(Fpms[fpm_cur_id]->va_alarm_pop!=0){
+           return;
+       }
+            
+        if (Fpms[fpm_cur_id]->qianliu){//如果启用欠流
+            if(Fpms[fpm_cur_id]->cur_data[3]<Fpms[fpm_cur_id]->a1_min){
+                    Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }else if(Fpms[fpm_cur_id]->cur_data[4]<Fpms[fpm_cur_id]->a1_min){
+                    Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }else if(Fpms[fpm_cur_id]->cur_data[5]<Fpms[fpm_cur_id]->a1_min){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }
+        }
+
+        if(Fpms[fpm_cur_id]->guoliu){ //如果启用过流
+            if(Fpms[fpm_cur_id]->cur_data[3]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }else if(Fpms[fpm_cur_id]->cur_data[4]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }else if(Fpms[fpm_cur_id]->cur_data[5]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }
+        }
+        
+        if(Fpms[fpm_cur_id]->va_alarm_pop==1){
+           Alarm  al(3,fpm_cur_id);
+           QString s,s1;
+           QTime qtime1=QTime::currentTime();
+           QDate qdate1=QDate::currentDate();
+            s=qdate1.toString("yyyy-MM-dd");
+            s1=qtime1.toString("hh:mm:ss");
+            al.date_str=s;
+            al.time_str=s1;
+            al.fpm_name=Fpms[fpm_cur_id]->name;
+
+            s1=QString::number(Fpms[fpm_cur_id]->cur_data[6]);
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[7]));
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[8]));
+            al.value_str=s1;
+
+            al.alarm_kind=1;
+            al.fpm_id=Fpms[fpm_cur_id]->id;
+            al.alarm_kind_str=bj_str;
+            vector_alarm.push_back(al);
+            Add_Alarm_Infos(&al);
+        }
+}
+
+//函数名：Chao_Xian_A3
+//函数功能：判断第3路(为电流时) 3个电流是否超限，适用于M3VA(即一路3相电压，一路3相电流)  
+//流程概述：
+//1：如果 已经报警，则不判断。
+//2：判断第2路3个电流是否超限。
+//3：如果有超限，那么保存信息到数据库，在保存信息到vector_alarm（报警信息向量表）
+void FFPMMainW::Chao_Xian_A2() {
+       QString bj_str;
+
+       if(Fpms[fpm_cur_id]->va_alarm_pop!=0){
+           return;
+       }
+            
+        if (Fpms[fpm_cur_id]->qianliu){//如果启用欠流
+            if(Fpms[fpm_cur_id]->cur_data[3]<Fpms[fpm_cur_id]->a1_min){
+                    Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }else if(Fpms[fpm_cur_id]->cur_data[4]<Fpms[fpm_cur_id]->a1_min){
+                    Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }else if(Fpms[fpm_cur_id]->cur_data[5]<Fpms[fpm_cur_id]->a1_min){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                    bj_str=tr("电流欠流");
+            }
+        }
+
+        if(Fpms[fpm_cur_id]->guoliu){ //如果启用过流
+            if(Fpms[fpm_cur_id]->cur_data[3]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }else if(Fpms[fpm_cur_id]->cur_data[4]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }else if(Fpms[fpm_cur_id]->cur_data[5]>Fpms[fpm_cur_id]->a1_max){
+                Fpms[fpm_cur_id]->va_alarm_pop=1;
+                bj_str=tr("电流过流");
+            }
+        }
+        
+        if(Fpms[fpm_cur_id]->va_alarm_pop==1){
+           Alarm  al(3,fpm_cur_id);
+           QString s,s1;
+           QTime qtime1=QTime::currentTime();
+           QDate qdate1=QDate::currentDate();
+            s=qdate1.toString("yyyy-MM-dd");
+            s1=qtime1.toString("hh:mm:ss");
+            al.date_str=s;
+            al.time_str=s1;
+            al.fpm_name=Fpms[fpm_cur_id]->name;
+
+            s1=QString::number(Fpms[fpm_cur_id]->cur_data[6]);
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[7]));
+            s1.append("/");
+            s1.append(QString::number(Fpms[fpm_cur_id]->cur_data[8]));
+            al.value_str=s1;
+
+            al.alarm_kind=1;
+            al.fpm_id=Fpms[fpm_cur_id]->id;
+            al.alarm_kind_str=bj_str;
+            vector_alarm.push_back(al);
+            Add_Alarm_Infos(&al);
+        }
+}
+
+
+
+
+
 
 
 //通讯事物处理-针对单个对象
@@ -1906,11 +2092,24 @@ unsigned int  FFPMMainW :: Get_RS485_Input(int cur_id)
             dataf=data32i*256+rec_ar1[4+gri];
             dataf=dataf/100;
             Fpms[fpm_cur_id]->cur_data[len]=dataf;
-
             gri=gri+2;
         }
-          return 5;
 
+            //2018-8-28 需要根据节点的型号，找到电流的值，然后乘以互感器的倍数。
+            //kind 模块类型 1=M3-V2   2=M3-V2A  3=M3-V3  4=M3-VA  5=M2-V6  6=M2-V9
+             
+            if(Fpms[fpm_cur_id]->kind==2){  //V2A
+                 Fpms[fpm_cur_id]->cur_data[6]=Fpms[fpm_cur_id]->cur_data[6]* Fpms[fpm_cur_id]->a1_rate; 
+                 Fpms[fpm_cur_id]->cur_data[7]=Fpms[fpm_cur_id]->cur_data[7]* Fpms[fpm_cur_id]->a1_rate; 
+                 Fpms[fpm_cur_id]->cur_data[8]=Fpms[fpm_cur_id]->cur_data[8]* Fpms[fpm_cur_id]->a1_rate; 
+            }
+
+          if(Fpms[fpm_cur_id]->kind==4){  //VA
+                 Fpms[fpm_cur_id]->cur_data[3]=Fpms[fpm_cur_id]->cur_data[3]* Fpms[fpm_cur_id]->a1_rate; 
+                 Fpms[fpm_cur_id]->cur_data[4]=Fpms[fpm_cur_id]->cur_data[4]* Fpms[fpm_cur_id]->a1_rate; 
+                 Fpms[fpm_cur_id]->cur_data[5]=Fpms[fpm_cur_id]->cur_data[5]* Fpms[fpm_cur_id]->a1_rate; 
+            }
+          return 5;
 
         }else{
             return 4;
@@ -2180,19 +2379,27 @@ bool FFPMMainW:: Fpms_Init()
 
                  Fpms[i_t]->enable=rec.value("enable").toBool();
 
-                 Fpms[i_t]->qy_v1=rec.value("qy_v1").toInt();
+                 //过欠压/流 值的百分比。
+                 Fpms[i_t]->qy_v1=rec.value("qy_v1").toInt(); //欠压值比
                  Fpms[i_t]->qy_v2=rec.value("qy_v2").toInt();
-                 Fpms[i_t]->qy_va3=rec.value("qy_va3").toInt();
+                 Fpms[i_t]->qy_v3=rec.value("qy_v3").toInt();
 
-                 Fpms[i_t]->gy_v1=rec.value("gy_v1").toInt();
+                 Fpms[i_t]->gy_v1=rec.value("gy_v1").toInt();//过压值比
                  Fpms[i_t]->gy_v2=rec.value("gy_v2").toInt();
-                 Fpms[i_t]->gy_va3=rec.value("gy_va3").toInt();
+                 Fpms[i_t]->gy_v3=rec.value("gy_v3").toInt();
 
-                 Fpms[i_t]->guoliu=rec.value("guoliu").toInt();
+                 Fpms[i_t]->ql_a1= rec.value("ql_a1").toInt();//欠流值比
+                 Fpms[i_t]->gl_a1= rec.value("gl_a1").toInt();
+
+                 Fpms[i_t]->guoliu=rec.value("guoliu").toInt(); //报警使能
                  Fpms[i_t]->qianliu=rec.value("qianliu").toInt();
-
                  Fpms[i_t]->guoya=rec.value("guoya").toInt();
                  Fpms[i_t]->qianya=rec.value("qianya").toInt();
+
+                 //2018年8月28日17:25:12 增加电流互感器倍数
+                 Fpms[i_t]->a1_rate = rec.value("a1_rate").toInt();
+
+                 MaxMinVAInit(); //初始化报警值。
 
                  Fpms[i_t]->comm_sta=0;
                  Fpms[i_t]->v1_alarm_pop=0;
@@ -2265,8 +2472,8 @@ bool FFPMMainW:: Ffpms_DataBase500_Init(){
     QString fdis;
     if(qdb.isOpen()){ //如果数据连接已经建立好。
         QSqlQuery query(qdb);
-        query.prepare("INSERT INTO ffpm_info (id, addr, net, name, kind, enable, guoya, qianya, guoliu, qianliu, qy_v1, qy_v2, qy_va3, gy_v1, gy_v2, gy_va3) "
-                         "VALUES (:id, :addr, :net, :name, 1,1, 1, 1, 1, 0, 180, 180, 180, 250, 250, 250)");
+        query.prepare("INSERT INTO ffpm_info (id, addr, net, name, kind, enable, guoya, qianya, guoliu, qianliu, qy_v1, qy_v2, qy_v3, gy_v1, gy_v2, gy_v3,ql_a1,gl_a1,a1_rate) "
+                         "VALUES (:id, :addr, :net, :name, 1,1, 1, 1, 0, 0, 80, 80, 80, 120, 120, 120,0,120,1)");
         for(i=1;i<=500;i++){
             query.bindValue(":id", i);
             query.bindValue(":addr", i);

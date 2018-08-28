@@ -90,9 +90,13 @@ private:
 
 
 
-   void Chao_Xian_M3V1();
-   void Chao_Xian_M3V2();
-   void Chao_Xian_M3VA();
+   void Chao_Xian_M3V1();//第1路3箱电压，超限报警判断
+   void Chao_Xian_M3V2();//第2路为3相电压时，超限报警判断
+   void Chao_Xian_M3VA();//第3路为电压/电流时超限判断，已舍弃不用了。
+   void Chao_Xian_M3V3(); //第3路为电压时，超限报警判断
+   void Chao_Xian_A2(); //第2路为电流时，超限报警判断
+   void Chao_Xian_A3(); //第3路为电流时，超限报警判断
+   
 
     //---------------------------数据操作函数-----------------------------
     bool Sys_Main_Info_Init();//------系统关键信息表初始化

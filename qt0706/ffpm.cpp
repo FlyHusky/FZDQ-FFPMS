@@ -19,10 +19,7 @@ FFPM::FFPM(){}
    FFPM:: v2_alarm_pop=0; //电压2报警弹出
    FFPM:: va_alarm_pop=0; //电压电流报警弹出
    FFPM::comm_fail_pop=0;
-   FFPM::guoya=1; //过压判断使能。
   // FFPM::name_gbk="ce|d2";
-
-
    //FFPM::bj_pop='0'; //0=没有报警
    for (i=0;i<9;i++){
     cur_data[i]=999.9;
@@ -48,34 +45,49 @@ FFPM::FFPM(){}
     gy_v2=STD_MAX_RATE_V;
     gy_v3=STD_MAX_RATE_V; //过压比值
 
-    a_rate = 1 ; //默认初始化互感器的电流变比为1，即在未知电流变比是，显示一次侧的电流。
-    bj_data[0] = (qy_v1 / 100) * STD_V;
-    bj_data[1] = (gy_v1 / 100) * STD_V; //过压值
+    a1_rate = 1 ; //默认初始化互感器的电流变比为1，即在未知电流变比是，显示一次侧的电流。
 
-    bj_data[2] = (qy_v2 / 100) * STD_V;
-    bj_data[3] = (gy_v2 / 100) * STD_V; //过压值
+    v1_min = (qy_v1 / 100) * STD_V; //电压1 欠压值。
+    v1_max = (gy_v1 / 100) * STD_V; //电压2 过压值
 
-    bj_data[4] = (qy_v3 / 100) * STD_V;
-    bj_data[5] = (gy_v3 / 100) * STD_V; //过压值
+    v2_min = (qy_v2 / 100) * STD_V;
+    v2_max = (gy_v2 / 100) * STD_V; //
 
-    bj_data
+    v3_min = (qy_v3 / 100) * STD_V;
+    v3_max = (gy_v3 / 100) * STD_V; 
 
+    //默认欠流值不启用的，欠流值=0
+    a1_min = (STD_MIN_RATE_A / 100) * a1_rate * STD_A ;  // 0/100 * 1 * 5
 
+    a1_max = (STD_MIN_RATE_A / 100) * a1_rate * STD_A; 
 
+    guoya = 1; //默认开启过呀报警
+    qianya = 1; //默认开启欠压报警
+    guoliu = 0; //默认不开启过流判断
+    qianliu =0; //默认不开启欠流判断
  }
 
+//根据过欠压/流值的百分比来设置电压电流的报警值。
+MaxMinVAInit(){
+    v1_min = (qy_v1 / 100) * STD_V; //电压1 欠压值。
+    v1_max = (gy_v1 / 100) * STD_V; //电压2 过压值
 
-    //依据占比值，初始化报警值
-   FFPM:: Bj_data_init(){
-           
+    v2_min = (qy_v2 / 100) * STD_V;
+    v2_max = (gy_v2 / 100) * STD_V; //
 
-   }
+    v3_min = (qy_v3 / 100) * STD_V;
+    v3_max = (gy_v3 / 100) * STD_V; 
 
-    //数据库操作失败时，默认的报警值
-    FFPM::Bj_data_init_default(){
+    //默认欠流值不启用的，欠流值=0
+    a1_min = (qy_a / 100) * a1_rate * STD_A ;  // 0/100 * 1 * 5
 
+    a1_max = (gy_a / 100) * a1_rate * STD_A; 
 
-    }
+    guoya = 1; //默认开启过呀报警
+    qianya = 1; //默认开启欠压报警
+    guoliu = 0; //默认不开启过流判断
+    qianliu =0; //默认不开启欠流判断
+}
 
  //4位有效数转换浮点数
  QString FormatFloat(float f){

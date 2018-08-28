@@ -20,6 +20,8 @@
 //4位有效数转换浮点数
 QString FormatFloat(float f);
 
+
+
 class FFPM
 {
 public:
@@ -27,8 +29,8 @@ public:
 
     FFPM(int t_id,int t_addr, unsigned char t_kind, unsigned char t_net);
 
-    //依据占比值，初始化报警值
-    Bj_data_init();
+    //根据过欠压/流值的百分比来设置电压电流的报警值。
+    MaxMinVAInit();
 
     //数据库操作失败时，默认的报警值
     Bj_data_init_default();
@@ -45,6 +47,15 @@ public:
   //  int cur_data[9]; //遥测实时值。
     float cur_data[9];
 
+    //电压1~3的欠压值和过压值。
+    float v1_max, v1_min, v2_max, v2_min, v3_max, v3_min;
+    
+    //电流的欠流值和过流值
+    float a1_min, a1_max;
+
+
+
+
     int bj_data[9];  //超限报警值
 
     //下面9个值都为额定的值的比
@@ -55,10 +66,10 @@ public:
     int  gy_v1 ;   //电压1的过压
     int  gy_v2 ;   //电压2的过压
     int  gy_v3 ;   //电压3的高限
-    int  qy_a; //电流低限
-    int  gy_a; //电流高限比
+    int  ql_a1; //电流低限
+    int  gl_a1; //电流高限比
 
-    int a_rate; //电流变比 100：5 的互感器 ，变比=20
+    int a1_rate; //电流变比 100：5 的互感器 ，变比=20
 
    unsigned char  guoya;      //过压判断启用>=1  不启用=0;
    unsigned char  qianya;     //欠压判断启用>=1   不启用=0;
